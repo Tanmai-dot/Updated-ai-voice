@@ -196,8 +196,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#e0e7ff] via-[#f6f9ff] to-[#f0fdfa]">
       {/* Navbar */}
-      <nav className="w-full bg-white/70 backdrop-blur-md shadow-lg py-3 px-6 flex items-center justify-between fixed top-0 left-0 z-50 border-b border-blue-100 rounded-b-2xl">
-        <div className="flex items-center gap-2">
+      <nav className="w-full bg-white/70 backdrop-blur-md shadow-md py-5 px-6 flex items-center justify-center fixed  z-50 ">
+      <div className='flex justify-between items-center w-[90%]'>
+
+        <div className="flex  items-center gap-2">
           <div className="bg-gradient-to-tr from-[#6366f1] to-[#3b82f6] text-white font-bold rounded-lg px-2 py-1 text-lg flex items-center shadow-md"><span className="mr-1">AI</span></div>
           <span className="font-extrabold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#3b82f6] tracking-tight">RecruiterAI</span>
         </div>
@@ -207,29 +209,39 @@ export default function Home() {
           <button className="hover:text-[#6366f1] transition bg-transparent" onClick={() => scrollToSection(aboutRef)}>About</button>
           <button className="hover:text-[#6366f1] transition bg-transparent" onClick={goToDemo}>Demo</button>
         </div>
-        <div className="flex gap-2">
-          <Button
+        <div className=''>
+          <select className="text-lg text-gray-700 font-medium w-[70px] border-none ">
+            <option className="boreder">Login</option>
+            <option onClick={() => router.push("/auth/candidate")}>Candidate</option>
+            <option onClick={() => router.push("/auth/recruiter")}>Recruiter</option>
+            <option onClick={() => router.push("/auth/admin")}>Admin</option>
+          </select>
+          {/* <Button
             variant="outline"
             className="text-xs px-3 py-1 border-blue-200 flex items-center"
             onClick={() => router.push("/auth/candidate")}
-          >
-            <ArrowRight className="w-4 h-4 mr-1" />Candidate
+            >
+            Candidate
+            <ArrowRight className="w-4 h-4 mr-1" />
           </Button>
           <Button
             variant="outline"
             className="text-xs px-3 py-1 border-blue-200 flex items-center"
             onClick={() => router.push("/auth/recruiter")}
-          >
-            <ArrowRight className="w-4 h-4 mr-1" />Recruiter
+            >
+            Recruiter
+            <ArrowRight className="w-4 h-4 mr-1" />
           </Button>
           <Button
             variant="outline"
             className="text-xs px-3 py-1 border-blue-200"
             onClick={() => router.push("/auth/admin")}
-          >
-            <ArrowRight className="w-4 h-4 mr-1"/>Admin
-          </Button>
+            >
+            Admin
+            <ArrowRight className="w-4 h-4 mr-1"/>
+          </Button> */}
         </div>
+            </div>
       </nav>
 
       {/* Demo Modal */}

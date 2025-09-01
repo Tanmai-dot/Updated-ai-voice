@@ -14,8 +14,22 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+
+  const scrollToSection = (ref, name) => {
+    setActiveSection(name);
+    ref.current.scrollIntoView({ behavior:'smooth'});
+  };
+
+  const navigate = (path) => {
+    setOpen(false);
+    router.push(path);
+  }
+
 
   // Refs for smooth scrolling
+  const homeRef = useRef(null);
   const featuresRef = useRef(null);
   const pricingRef = useRef(null);
   const aboutRef = useRef(null);
@@ -26,12 +40,6 @@ export default function Home() {
   const goToAdmin = () => router.push("/auth?page=admin");
   const goToSysAdmin = () => router.push("/auth?page=sysadmin");
 
-  // Scroll to section
-  const scrollToSection = (ref) => {
-    if (ref.current) {
-      ref.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   // Show modal for demo
   const goToDemo = () => setShowDemoModal(true);
@@ -203,19 +211,79 @@ export default function Home() {
           <div className="bg-gradient-to-tr from-[#6366f1] to-[#3b82f6] text-white font-bold rounded-lg px-2 py-1 text-lg flex items-center shadow-md"><span className="mr-1">AI</span></div>
           <span className="font-extrabold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#3b82f6] tracking-tight">RecruiterAI</span>
         </div>
-        <div className="hidden md:flex gap-8 text-gray-700 font-semibold">
-          <button className="hover:text-[#6366f1] transition bg-transparent" onClick={() => scrollToSection(featuresRef)}>Features</button>
-          <button className="hover:text-[#6366f1] transition bg-transparent" onClick={() => scrollToSection(pricingRef)}>Pricing</button>
-          <button className="hover:text-[#6366f1] transition bg-transparent" onClick={() => scrollToSection(aboutRef)}>About</button>
-          <button className="hover:text-[#6366f1] transition bg-transparent" onClick={goToDemo}>Demo</button>
+        <div className="hidden md:flex gap-8 text-gray-700 font-semibold text-lg">
+  <button
+    className={`transition bg-transparent ${activeSection === "home" ? "text-[#6366f1]" : "hover:text-[#6366f1]"}`}
+    onClick={() => scrollToSection(homeRef, "home")}
+  >
+    Home
+  </button>
+  <button
+    className={`transition bg-transparent ${activeSection === "about" ? "text-[#6366f1]" : "hover:text-[#6366f1]"}`}
+    onClick={() => scrollToSection(aboutRef, "about")}
+  >
+    About
+  </button>
+  <button
+    className={`transition bg-transparent ${activeSection === "features" ? "text-[#6366f1]" : "hover:text-[#6366f1]"}`}
+    onClick={() => scrollToSection(featuresRef, "features")}
+  >
+    Features
+  </button>
+  
+  <button
+    className={`transition bg-transparent ${activeSection === "pricing" ? "text-[#6366f1]" : "hover:text-[#6366f1]"}`}
+    onClick={() => scrollToSection(pricingRef, "pricing")}
+  >
+    Pricing
+  </button>
+  
+  
+  <button
+    className={`transition bg-transparent ${activeSection === "demo" ? "text-[#6366f1]" : "hover:text-[#6366f1]"}`}
+    onClick={() => { setActiveSection("demo"); goToDemo(); }}
+  >
+    Demo
+  </button>
         </div>
-        <div className=''>
-          <select className="text-lg text-gray-700 font-medium w-[70px] border-none ">
+        <div className='relative inline-block text-left'>
+           {/* Dropdown button */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="text-lg text-white font-medium px-4 py-2 bg-blue-500 rounded-md border shadow-sm hover:bg-blue-600"
+      >
+        Login ▾
+      </button>
+
+      {/* Dropdown menu */}
+      {open && (
+        <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border z-50">
+          <button
+            onClick={() => navigate("/auth/candidate")}
+            className="block w-full text-left px-4 py-2 hover:bg-blue-500 hover:text-white"
+          >
+            Candidate
+          </button>
+          <button
+            onClick={() => navigate("/auth/recruiter")}
+            className="block w-full text-left px-4 py-2 hover:bg-blue-500 hover:text-white"
+          >
+            Recruiter
+          </button>
+          <button
+            onClick={() => navigate("/auth/admin")}
+            className="block w-full text-left px-4 py-2 hover:bg-blue-500 hover:text-white"
+          >
+            Admin
+          </button>
+        </div>
+      )}
+          {/* <select className="text-lg text-gray-700 font-medium w-[70px] border-none ">
             <option className="boreder">Login</option>
             <option onClick={() => router.push("/auth/candidate")}>Candidate</option>
             <option onClick={() => router.push("/auth/recruiter")}>Recruiter</option>
             <option onClick={() => router.push("/auth/admin")}>Admin</option>
-          </select>
+          </select> */}
           {/* <Button
             variant="outline"
             className="text-xs px-3 py-1 border-blue-200 flex items-center"
@@ -272,9 +340,9 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen relative z-10 pt-32">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen relative z-10">
         {/* Hero Section */}
-        <div className="text-center space-y-8 max-w-4xl w-full mx-auto">
+        <section ref={homeRef} className="h-[100vh] flex  text-center space-y-8 max-w-4xl w-full mx-auto">
           <div className="flex flex-col items-center justify-center">
             <div className="bg-gradient-to-tr from-[#6366f1] to-[#3b82f6] rounded-2xl w-28 h-28 flex items-center justify-center mb-6 shadow-xl border-4 border-white/60">
               <Users className="w-16 h-16 text-white" />
@@ -286,7 +354,7 @@ export default function Home() {
               <Button size="lg" variant="outline" className="border-[#6366f1] text-[#6366f1] px-10 py-5 text-xl font-bold shadow-lg hover:bg-[#6366f1]/10 transition-all" onClick={goToDemo}>Watch Demo</Button>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Unique Stats Section */}
         <div className="w-full max-w-5xl mx-auto mt-20 grid grid-cols-1 sm:grid-cols-3 gap-10">
